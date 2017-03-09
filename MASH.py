@@ -1,73 +1,70 @@
 import random
 
+mash_library = ["Mansion", "Apartment", "Shack", "House", "Yurt", "Townhouse", 
+                "Private Island", "Farm", "Tent"]
+kids_library = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15] 
+pet_library = ["Moose", "Monkey", "Elephant", "Turtle", "Deamon", "Gremlin",
+                "The Lochnest Monster", "Baby Shark", "Llama", "Duckling", "Porcupine"]
+job_library = ["President of the United States", "Rocket Scientist", "Software Engineer",
+                "Pro Tennis Player", "Fashion Designer", "International Pop Sensation", 
+                "Concert Pianist", "Astronaut", "Animator", "Film Director", "CEO",
+                "Foreign Service Agent", "Chef"]
 main_pets = []
-
-library_pets = ["mouse", "moose", "monkey", "elephant", "turtle", "deamon", "gremlin"]
-
-user_pet_choice_1 = raw_input("Choose a pet ")
-user_pet_choice_2 = raw_input("Choose another pet ")
-
-def pets():
-    computer_pet_choice_1 = main_pets.append(random.choice(library_pets))
-    computer_pet_choice_2 = main_pets.append(random.choice(library_pets))
-    main_pets.extend([user_pet_choice_1, user_pet_choice_2])
-    return main_pets
-
-print pets()
-
-def return_one():
-    selected_pet = random.choice(main_pets)
-    return selected_pet
-
-print return_one()
+main_jobs = []
+main_partners = []
 
 
-# 2 - Create a dictionary that selects two randomly generated choices from each key 
-#     and combines them with the user input:
-
-    
-#     Pre-creadted dictionary will be composed of the following keys:
-
-#         PARTNERS MALE - list of 50 celebrities and historical figures
-#         PARTENERS FEMALE - list of 50 celebrities and historical figures
-#         or combination option
-
-#         PROFESSIONS - list of 100 different jobs
-
-#         PETS - list of 50 different kinds of animals
-
-#         NUMBER OF KIDS - a list of numbers from 1 - 20
+def print_key_values():
+    for key in mash_player_dictionary.keys():
+        print mash_player_dictionary[key]
 
 
-#     New dictionary will be generated, it will contain the keys:
-        
-#         MASH - Mansion, Apartment, House, Shack 
-
-#         PARTNER - Two user inputs, two computer generated selections
-
-#         PROFESSIONS - Two user inputs, two computer generated selections
-
-#         PETS - Two user inputs, two computer generated selections
-
-#         NUMBER OF CHILDREN - Two user inputs, two computer generated selections
-
-# 3 - Display the key/value pairs from the new dictionary to the user
-
-# 4 - Ask the user to pick a number from 1-50.  User selection will be the "step"
-#     for the elimination process.
-
-# 5 - Create a while loop that itereates through the new dictionary by the step 
-#     intereval that has been selected by the user.  Whatever value the step lands
-#     on will be deleted.  The while loop will stop deleting values from each key
-#     when the key only has one value left.  The loop will stop when each key has
-#     only one value.
-
-# 6 - Display the results of the MASH game to the user         
+def populate_player_dictionary(list_to_append, user_choice_1, user_choice_2, source_library):
+    list_to_append.extend([user_choice_1, user_choice_2])
+    list_to_append.append(random.choice(source_library))
+    second_random_choice = random.choice(source_library)
+    while second_random_choice not in list_to_append:
+        list_to_append.append(second_random_choice)
+        return list_to_append    
 
 
+def eliminate(list_to_eliminate_from, magic_number):
+    index_to_remove = 0
+    while len(list_to_eliminate_from) > 1:
+        magic_number = magic_number - 1
+        index_to_remove = index_to_remove + magic_number
+        index_to_remove = index_to_remove % len(list_to_eliminate_from)
+        list_to_eliminate_from.remove(list_to_eliminate_from[index_to_remove])
+    return list_to_eliminate_from[0]     
+
+def main():
+    print "Wecome to MASH, answer a few questions and I can predict your future!  "
+    jobs_1 = raw_input("What is your dream job?  ")
+    jobs_2 = raw_input("What is your back-up dream job?  ")
+    pets_1 = raw_input("What kind of pet would you like to have?  ")
+    pets_2 = raw_input("And if you couldn't have that pet, what pet would you want?  ")
+    partner_1 = raw_input("Enter the name of someone you would like to marry:  ")
+    partner_2 = raw_input("Enter the name of someone you wouldn't like to marry:  ")
+    magic_number = int(raw_input("Now pick a number between 1-20  "))
+    populate_player_dictionary(main_pets, pets_1, pets_2, pet_library)
+    populate_player_dictionary(main_jobs, jobs_1, jobs_2, job_library)
+    main_partners.append(partner_1)
+    main_partners.append(partner_2)
+    home = eliminate(mash_library, magic_number)
+    job = eliminate(main_jobs, magic_number)
+    pet = eliminate(main_pets, magic_number)
+    partner = eliminate(main_partners, magic_number)
+    kids = eliminate(kids_library, magic_number) 
+    print """Your future has been predicted!  You will live in/on a(n) %s, your will be a/an %s, your partner will be %s, you will have %s kid(s), and a %s for a pet""" % (home, job, partner, kids, pet)
+    exit() 
 
 
+main()
+
+if __name__ == '__main__':
+    main()
 
 
-
+# if index_to_remove >= len(main_pets):
+        #     index_to_remove = 0
 
